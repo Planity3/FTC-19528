@@ -4,11 +4,11 @@ package org.firstinspires.ftc.teamcode;
 public class AutonomousInterface {
 
 	// todo: write your code here
-	public double[] DriveForwards(float powe)
+	public double[] DriveForwards(float power)
 	{
 		return [];
 	}
-	public double[] DriveBackwards(float powe)
+	public double[] DriveBackwards(float power)
 	{
 		return[];
 	}
