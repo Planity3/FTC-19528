@@ -6,16 +6,17 @@ public class RedBackstage extends LinearOpMode {
   private DcMotor backRight;
   private DcMotor frontLeft;
   private DcMotor frontRight;
-    
+
   @Override
   public void runOpMode() {
 
-    backLeft = hardwareMap.get(DcMotor.class, "RightDrive");
-    backRight = hardwareMap.get(DcMotor.class, "LeftDrive");
-    frontLeft = hardwareMap.get(DcMotor.class, "Arm");
-    frontRight = hardwareMap.get(DcMotor.class, "Int");
-    LeftDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-    
+    backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+    backRight = hardwareMap.get(DcMotor.class, "backRight");
+    frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+    frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+
+ frontRight.setDirection(DcMotor.Direction.REVERSE);
+backRight.setDirection(DcMotor.Direction.REVERSE);
     waitForStart();
     if (opModeIsActive()) {
       ApplyPowers(DriveForwards(1.0));
