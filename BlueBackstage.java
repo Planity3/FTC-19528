@@ -15,8 +15,8 @@ public class BlueBackstage extends LinearOpMode {
     frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
     frontRight = hardwareMap.get(DcMotor.class, "frontRight");
 
- frontRight.setDirection(DcMotor.Direction.REVERSE);
-backRight.setDirection(DcMotor.Direction.REVERSE);
+  frontRight.setDirection(DcMotor.Direction.REVERSE);
+  backRight.setDirection(DcMotor.Direction.REVERSE);
     waitForStart();
     if (opModeIsActive()) {
       ApplyPowers(DriveForwards(1.0));
@@ -24,18 +24,18 @@ backRight.setDirection(DcMotor.Direction.REVERSE);
       StopMotors();
      }
 
-public void ApplyPowers(double[] powers)
-{
-frontLeft.setPower(powers[0]);
-frontRight.setPower(powers[1]);
-backLeft.setPower(powers[2]);
-backRight.setPower(powers[3]);
-}
-public void StopMotors()
-{
-frontLeft.setPower(0);
-frontRight.setPower(0);
-backLeft.setPower(0);
-backRight.setPower(0);
-}
+    public void ApplyPowers(double[] powers)
+    {
+      frontLeft.setPower(powers[0]);
+      frontRight.setPower(powers[1]);
+      backLeft.setPower(powers[2]);
+      backRight.setPower(powers[3]);
+    }
+    public void StopMotors()
+    {
+      frontLeft.setPower(0);
+      frontRight.setPower(0);
+      backLeft.setPower(0);
+      backRight.setPower(0);
+    }
  }
