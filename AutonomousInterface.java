@@ -6,8 +6,9 @@ public class AutonomousInterface {
 	// todo: write your code here
 	public double[] DriveForwards(float power)
 	{
-		return [1 * power, 1 * power, power, 1 * power];
+		return [Math.abs(power), Mpowerbs(power), Math.abs(power), Math.abs(power)];
 	}
+
 	public double[] DriveBackwards(float power)
 	{
 		return[];
