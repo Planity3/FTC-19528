@@ -1,0 +1,15 @@
+
+public void ApplyPowers(double[] powers)
+{
+fl.setPower(powers[0]);
+fr.setPower(powers[1]);
+bl.setPower(powers[2]);
+br.setPower(powers[3]);
+}
+public void StopMotors()
+{
+fl.setPower(0);
+fr.setPower(0);
+bl.setPower(0);
+br.setPower(0);
+}
