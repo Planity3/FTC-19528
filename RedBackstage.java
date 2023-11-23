@@ -18,23 +18,23 @@ public class RedBackstage extends LinearOpMode {
     
     waitForStart();
     if (opModeIsActive()) {
-      ApplyPowers(DriveForwards(1));
+      ApplyPowers(DriveForwards(1.0));
       sleep(1);
       StopMotors();
      }
 
 public void ApplyPowers(double[] powers)
 {
-fl.setPower(powers[0]);
-fr.setPower(powers[1]);
-bl.setPower(powers[2]);
-br.setPower(powers[3]);
+frontLeft.setPower(powers[0]);
+frontRight.setPower(powers[1]);
+backLeft.setPower(powers[2]);
+backRight.setPower(powers[3]);
 }
 public void StopMotors()
 {
-fl.setPower(0);
-fr.setPower(0);
-bl.setPower(0);
-br.setPower(0);
+frontLeft.setPower(0);
+frontRight.setPower(0);
+backLeft.setPower(0);
+backRight.setPower(0);
 }
  }
