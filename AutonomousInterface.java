@@ -6,18 +6,18 @@ public class AutonomousInterface {
 	// todo: write your code here
 	public double[] DriveForwards(float power)
 	{
-		return [];
+		return [1 * power, 1 * power, power, 1 * power];
 	}
 	public double[] DriveBackwards(float power)
 	{
 		return[];
 	}
 
-	public double[] StrafeLeft()
+public double[] StrafeLeft(float power)
 	{
 		return[];
 	}
-	public double[] StrafeRight()
+	public double[] StrafeRight(float power)
 	{
 		return[];
 	}
