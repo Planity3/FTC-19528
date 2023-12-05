@@ -62,6 +62,23 @@ public class MecanumTeleOp extends LinearOpMode {
             frontRightMotor.setPower(v2 * powerMultiplier);
             backLeftMotor.setPower(v3 * powerMultiplier);
             backRightMotor.setPower(v4 * powerMultiplier);
+
+            //2nd controler section
+
+            //plane controls
+            boolean planeToggle = false;
+
+            if(gamepad2.y && !planeToggle)
+            {
+                planeToggle == true;
+            }
+            if(planeToggle && gamepad2.x)
+            {
+                planeServo.setPosition(0);
+            }
+
+
+
         }
     }
 }
