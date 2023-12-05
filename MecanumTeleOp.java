@@ -23,6 +23,10 @@ public class MecanumTeleOp extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        boolean planeToggle = false;
+        boolean clawPosition = false;
+        //false = closed
+
         waitForStart();
 
         if (isStopRequested()) return;
@@ -66,8 +70,6 @@ public class MecanumTeleOp extends LinearOpMode {
             //2nd controler section
 
             //plane controls
-            boolean planeToggle = false;
-
             if(gamepad2.y && !planeToggle)
             {
                 planeToggle == true;
@@ -77,8 +79,30 @@ public class MecanumTeleOp extends LinearOpMode {
                 planeServo.setPosition(0);
             }
 
+            //servo controls
+            
+            if(gamepad2.left_bumper)
+            {
+                clawPosition = !clawPosition;
+                if(clawPosition)
+                {
+                    //open
+                    clawLeft.setPosition(0);
+                    clawRight.setPosition(0);
+                }
+                else
+                {
+                    //clode
+                    clawLeft.setPosition(1);
+                    clawRight.setPosition(1);
+                }
+            }
 
+            // Slide Controls
+            slidePower = gamepad2.left_stick_y;
 
+            SlideLeft.setPower(slidePower);
+            SlideRight.setPower(-slidePower);
         }
     }
 }
