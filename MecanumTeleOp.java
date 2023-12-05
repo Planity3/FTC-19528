@@ -90,14 +90,14 @@ public class MecanumTeleOp extends LinearOpMode {
                 if(clawPosition)
                 {
                     //open
-                    clawLeft.setPosition(0);
-                    clawRight.setPosition(0);
+                    clawLeft.setPosition(0.2);
+                    clawRight.setPosition(0.6);
                 }
                 else
                 {
                     //close
-                    clawLeft.setPosition(1);
-                    clawRight.setPosition(1);
+                    clawLeft.setPosition(0.625);
+                    clawRight.setPosition(0.3283);
                 }
             }
 
