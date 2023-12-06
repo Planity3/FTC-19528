@@ -18,6 +18,7 @@ public class MecanumTeleOp extends LinearOpMode {
 
         Servo clawLeft  = hardwareMap.get(Servo.class, "leftServo");
         Servo clawRight = hardwareMap.get(Servo.class, "rightServo");
+        DcMotor clawPitch = hardwareMap.dcMotor.get("clawPitch");
 
         DcMotor slideLeft = hardwareMap.dcMotor.get("slideLeft");
         DcMotor slideRight = hardwareMap.dcMotor.get("slideRight");
@@ -103,7 +104,9 @@ public class MecanumTeleOp extends LinearOpMode {
                     clawRight.setPosition(0.3283);
                 }
             }
-
+            //claw pitch
+            clawPitchPos = gamepad2.right_stick_x;
+            clawPitch.setPower(clawPitchPos);
             // Slide Controls
             slidePower = gamepad2.left_stick_y;
 
