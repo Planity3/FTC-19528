@@ -16,8 +16,8 @@ public class MecanumTeleOp extends LinearOpMode {
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRight");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("backRight");
 
-        Servo clawLeft  = hardwareMap.get(Servo.class, "leftServo");
-        Servo clawRight = hardwareMap.get(Servo.class, "rightServo");
+        CRServo clawLeft  = hardwareMap.get(CRServo.class, "leftServo");
+        CRServo clawRight = hardwareMap.get(CRServo.class, "rightServo");
         DcMotor clawPitch = hardwareMap.dcMotor.get("clawPitch");
 
         DcMotor slideLeft = hardwareMap.dcMotor.get("slideLeft");
