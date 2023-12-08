@@ -32,6 +32,9 @@ public class MecanumTeleOp extends LinearOpMode {
 
         boolean planeToggle = false;
         boolean clawPosition = false;
+        long clawTime = 1 * 1000;
+        long setTime = System.currentTimeMillis();
+
         //false = closed
 
         waitForStart();
@@ -86,30 +89,36 @@ public class MecanumTeleOp extends LinearOpMode {
                 planeServo.setPosition(0);
             }
 
-            //servo controls
-            
-            if(gamepad2.left_bumper)
+            //claw controls
+            if(gamepad2.left_bumper && setTime - clawTime <= 0)
             {
+                setTime = System.currentTimeMillis();
                 clawPosition = !clawPosition;
                 if(clawPosition)
                 {
                     //open
-                    clawLeft.setPosition(0.2);
-                    clawRight.setPosition(0.6);
+                    clawLeft.setPower(-1);
+                    clawRight.setPower(1);
                 }
                 else
                 {
                     //close
-                    clawLeft.setPosition(0.625);
-                    clawRight.setPosition(0.3283);
+                    clawLeft.setPower(1);
+                    clawRight.setPower(-1);
                 }
             }
+            else if (!gamepad2.left_bumper && setTime - clawTime <= 0)
+            {
+                    clawLeft.setPower(0);
+                    clawRight.setPower(0);                
+            }
+            
             //claw pitch
             clawPitchPos = gamepad2.right_stick_x;
             clawPitch.setPower(clawPitchPos);
+            
             // Slide Controls
             slidePower = gamepad2.left_stick_y;
-
             slideLeft.setPower(slidePower);
             slideRight.setPower(-slidePower);
         }
