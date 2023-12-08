@@ -90,25 +90,25 @@ public class MecanumTeleOp extends LinearOpMode {
             }
 
             //claw controls
-            if(gamepad2.left_bumper && setTime - clawTime <= 0)
-            {
-                setTime = System.currentTimeMillis();
-                clawPosition = !clawPosition;
+            if(gamepad2.left_bumper)
+            {                
                 if(clawPosition)
                 {
                     //open
-                    clawLeft.setPower(-1);
-                    clawRight.setPower(1);
+                    clawLeft.setPower(0);
+                    clawRight.setPower(0);
                 }
                 else
                 {
                     //close
-                    clawLeft.setPower(1);
-                    clawRight.setPower(-1);
+                    clawLeft.setPower(-1);
+                    clawRight.setPower(1);
                 }
             }
-            else if (!gamepad2.left_bumper && setTime - clawTime <= 0)
+            else
             {
+                    clawPosition = !clawPosition;
+                    clawHold = false;
                     clawLeft.setPower(0);
                     clawRight.setPower(0);                
             }
