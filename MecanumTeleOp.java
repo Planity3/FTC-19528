@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -16,9 +17,12 @@ public class MecanumTeleOp extends LinearOpMode {
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRight");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("backRight");
 
-        CRServo clawLeft  = hardwareMap.get(CRServo.class, "leftServo");
-        CRServo clawRight = hardwareMap.get(CRServo.class, "rightServo");
+        Servo clawLeft  = hardwareMap.get(Servo.class, "clawLeft");
+        Servo clawRight = hardwareMap.get(Servo.class, "clawRight");
         DcMotor clawPitch = hardwareMap.dcMotor.get("clawPitch");
+
+        // Servo planeServo = hardwareMap.get(Servo.class, "planeServo");
+
 
         DcMotor slideLeft = hardwareMap.dcMotor.get("slideLeft");
         DcMotor slideRight = hardwareMap.dcMotor.get("slideRight");
@@ -28,17 +32,27 @@ public class MecanumTeleOp extends LinearOpMode {
         // reverse the left side instead.
         // See the note about this earlier on this page.
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        clawRight.setDirection(Servo.Direction.REVERSE);
+        
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        clawPitch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         boolean planeToggle = false;
         boolean clawPosition = false;
-        long clawTime = 1 * 1000;
-        long setTime = System.currentTimeMillis();
-
+        boolean clawHold = false;
+        int clawPos = 0;
         //false = closed
 
         waitForStart();
-
+        clawLeft.setPosition(0.35);
+        clawRight.setPosition(0.2); 
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
@@ -80,47 +94,78 @@ public class MecanumTeleOp extends LinearOpMode {
             //2nd controler section
 
             //plane controls
-            if(gamepad2.y && !planeToggle)
-            {
-                planeToggle == true;
-            }
-            if(planeToggle && gamepad2.x)
-            {
-                planeServo.setPosition(0);
-            }
+            // if(gamepad2.y && !planeToggle)
+            // {
+            //     planeToggle == true;
+            // }
+            // if(planeToggle && gamepad2.x)
+            // {
+            //     planeServo.setPosition(0);
+            // }
 
-            //claw controls
+            //servo controls
+            
+            // if(gamepad2.left_bumper)
+            // {
+            //     clawHold = true;
+            //     if(clawPosition)
+            //     {
+            //         //open
+            //         clawLeft.setPower(-1);
+            //         clawRight.setPower(1);
+            //     }
+            //     else
+            //     {
+            //         //close
+            //         clawLeft.setPower(0);
+            //         clawRight.setPower(0);
+            //     }
+            // }
+            // else if()
+            // {
+            //         clawPosition = !clawPosition;
+            //         clawHold = false;
+            //         clawLeft.setPower(0);
+            //         clawRight.setPower(0);                
+            // }
             if(gamepad2.left_bumper)
-            {                
+            {
+                while(gamepad2.left_bumper)
+                {
+                    
+                }
+                clawPosition = !clawPosition;
                 if(clawPosition)
                 {
-                    //open
-                    clawLeft.setPower(0);
-                    clawRight.setPower(0);
-                }
-                else
-                {
-                    //close
-                    clawLeft.setPower(-1);
-                    clawRight.setPower(1);
-                }
+                     //open
+                   clawLeft.setPosition(0.123);
+                   clawRight.setPosition(0.45);
+                 }
+                 else
+                 {
+                     //close
+                   clawLeft.setPosition(0.35);
+                   clawRight.setPosition(0.2);   
+                 }
             }
-            else
-            {
-                    clawPosition = !clawPosition;
-                    clawHold = false;
-                    clawLeft.setPower(0);
-                    clawRight.setPower(0);                
-            }
-            
             //claw pitch
-            clawPitchPos = gamepad2.right_stick_x;
-            clawPitch.setPower(clawPitchPos);
+            
+            
+            double clawPitchPos = gamepad2.right_stick_x;
+            clawPitch.setPower(clawPitchPos / 0.75);
             
             // Slide Controls
-            slidePower = gamepad2.left_stick_y;
+            double slidePower = gamepad2.left_stick_y;
             slideLeft.setPower(slidePower);
             slideRight.setPower(-slidePower);
+            //
+            telemetry.addData("Front_Left tgt pwr", "pwr: " + String.format("%.2f", v1));
+            telemetry.addData("Front_Right tgt pwr", "pwr: " + String.format("%.2f", v2));
+            telemetry.addData("Back_Left tgt pwr", "pwr: " + String.format("%.2f", v3));
+            telemetry.addData("Back_Right tgt pwr", "pwr: " + String.format("%.2f", v4));
+            telemetry.addData("Slide tgt pwr", "pwr: " + String.format("%.2f", slidePower));
+            telemetry.addData("Claw Rotation tgt pwr", "pwr: " + String.format("%.2f", clawPitchPos));
+            telemetry.update();
         }
     }
 }
