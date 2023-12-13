@@ -48,6 +48,7 @@ public class MecanumTeleOp extends LinearOpMode {
         boolean clawPosition = false;
         boolean clawHold = false;
         int clawPos = 0;
+        int slidePos = 0;
         //false = closed
 
         waitForStart();
@@ -155,10 +156,21 @@ public class MecanumTeleOp extends LinearOpMode {
             clawPitch.setPower(clawPitchPos / 0.75);
             
             // Slide Controls
-            double slidePower = gamepad2.left_stick_y;
-            slideLeft.setPower(slidePower);
-            slideRight.setPower(-slidePower);
-            //
+            // double slidePower = gamepad2.left_stick_y;
+            // slideLeft.setPower(slidePower);
+            // slideRight.setPower(-slidePower);
+            
+            if(gamepad2.dpad_up)
+            {
+                slidePos += 1;
+            }
+            if(gamepad2.dpad_down)
+            {
+                slidePos -= 1;
+            }
+            slideLeft.setTargetPosition(slidePos);
+            slideRight.setTargerPosition(slidePos);
+            
             telemetry.addData("Front_Left tgt pwr", "pwr: " + String.format("%.2f", v1));
             telemetry.addData("Front_Right tgt pwr", "pwr: " + String.format("%.2f", v2));
             telemetry.addData("Back_Left tgt pwr", "pwr: " + String.format("%.2f", v3));
