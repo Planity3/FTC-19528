@@ -92,8 +92,6 @@ public class MecanumTeleOp extends LinearOpMode {
             backLeftMotor.setPower(v3 * powerMultiplier);
             backRightMotor.setPower(v4 * powerMultiplier);
 
-            //2nd controler section
-
             //plane controls
             // if(gamepad2.y && !planeToggle)
             // {
@@ -103,32 +101,8 @@ public class MecanumTeleOp extends LinearOpMode {
             // {
             //     planeServo.setPosition(0);
             // }
-
-            //servo controls
             
-            // if(gamepad2.left_bumper)
-            // {
-            //     clawHold = true;
-            //     if(clawPosition)
-            //     {
-            //         //open
-            //         clawLeft.setPower(-1);
-            //         clawRight.setPower(1);
-            //     }
-            //     else
-            //     {
-            //         //close
-            //         clawLeft.setPower(0);
-            //         clawRight.setPower(0);
-            //     }
-            // }
-            // else if()
-            // {
-            //         clawPosition = !clawPosition;
-            //         clawHold = false;
-            //         clawLeft.setPower(0);
-            //         clawRight.setPower(0);                
-            // }
+            //drive controls
             if(gamepad2.left_bumper)
             {
                 while(gamepad2.left_bumper)
