@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -16,19 +17,43 @@ public class MecanumTeleOp extends LinearOpMode {
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRight");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("backRight");
 
+        Servo clawLeft  = hardwareMap.get(Servo.class, "clawLeft");
+        Servo clawRight = hardwareMap.get(Servo.class, "clawRight");
+        DcMotor clawPitch = hardwareMap.dcMotor.get("clawPitch");
+
+        // Servo planeServo = hardwareMap.get(Servo.class, "planeServo");
+
+
+        DcMotor slideLeft = hardwareMap.dcMotor.get("slideLeft");
+        DcMotor slideRight = hardwareMap.dcMotor.get("slideRight");
+
         // Reverse the right side motors. This may be wrong for your setup.
         // If your robot moves backwards when commanded to go forwards,
         // reverse the left side instead.
         // See the note about this earlier on this page.
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        clawRight.setDirection(Servo.Direction.REVERSE);
+        
+        frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        clawPitch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         boolean planeToggle = false;
         boolean clawPosition = false;
+        boolean clawHold = false;
+        int clawPos = 0;
+        int slidePos = 0;
         //false = closed
 
         waitForStart();
-
+        clawLeft.setPosition(0.35);
+        clawRight.setPosition(0.2); 
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
@@ -67,42 +92,66 @@ public class MecanumTeleOp extends LinearOpMode {
             backLeftMotor.setPower(v3 * powerMultiplier);
             backRightMotor.setPower(v4 * powerMultiplier);
 
-            //2nd controler section
-
             //plane controls
-            if(gamepad2.y && !planeToggle)
-            {
-                planeToggle == true;
-            }
-            if(planeToggle && gamepad2.x)
-            {
-                planeServo.setPosition(0);
-            }
-
-            //servo controls
+            // if(gamepad2.y && !planeToggle)
+            // {
+            //     planeToggle == true;
+            // }
+            // if(planeToggle && gamepad2.x)
+            // {
+            //     planeServo.setPosition(0);
+            // }
             
+            //drive controls
             if(gamepad2.left_bumper)
             {
+                while(gamepad2.left_bumper)
+                {
+                    
+                }
                 clawPosition = !clawPosition;
                 if(clawPosition)
                 {
-                    //open
-                    clawLeft.setPosition(0);
-                    clawRight.setPosition(0);
-                }
-                else
-                {
-                    //clode
-                    clawLeft.setPosition(1);
-                    clawRight.setPosition(1);
-                }
+                     //open
+                   clawLeft.setPosition(0.123);
+                   clawRight.setPosition(0.45);
+                 }
+                 else
+                 {
+                     //close
+                   clawLeft.setPosition(0.35);
+                   clawRight.setPosition(0.2);   
+                 }
             }
-
+            //claw pitch
+            
+            
+            double clawPitchPos = gamepad2.right_stick_x;
+            clawPitch.setPower(clawPitchPos / 0.75);
+            
             // Slide Controls
-            slidePower = gamepad2.left_stick_y;
-
-            SlideLeft.setPower(slidePower);
-            SlideRight.setPower(-slidePower);
+            // double slidePower = gamepad2.left_stick_y;
+            // slideLeft.setPower(slidePower);
+            // slideRight.setPower(-slidePower);
+            
+            if(gamepad2.dpad_up)
+            {
+                slidePos += 1;
+            }
+            if(gamepad2.dpad_down)
+            {
+                slidePos -= 1;
+            }
+            slideLeft.setTargetPosition(slidePos);
+            slideRight.setTargerPosition(slidePos);
+            
+            telemetry.addData("Front_Left tgt pwr", "pwr: " + String.format("%.2f", v1));
+            telemetry.addData("Front_Right tgt pwr", "pwr: " + String.format("%.2f", v2));
+            telemetry.addData("Back_Left tgt pwr", "pwr: " + String.format("%.2f", v3));
+            telemetry.addData("Back_Right tgt pwr", "pwr: " + String.format("%.2f", v4));
+            telemetry.addData("Slide tgt pwr", "pwr: " + String.format("%.2f", slidePower));
+            telemetry.addData("Claw Rotation tgt pwr", "pwr: " + String.format("%.2f", clawPitchPos));
+            telemetry.update();
         }
     }
 }
