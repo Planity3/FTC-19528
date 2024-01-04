@@ -1,9 +1,10 @@
-## NOTICE
+# Road Runner Quickstart
 
 This repository contains the public FTC SDK for the CENTERSTAGE (2023-2024) competition season.
 
-## Welcome!
-This GitHub repository contains the source code that is used to build an Android app to control a *FIRST* Tech Challenge competition robot.  To use this SDK, download/clone the entire project to your local computer.
+An example FTC project using [Road Runner](https://github.com/acmerobotics/road-runner).
+
+## Installation
 
 ## Requirements
 To use this Android Studio project, you will need Android Studio 2021.2 (codename Chipmunk) or later.
@@ -16,9 +17,14 @@ If you are new to robotics or new to the *FIRST* Tech Challenge, then you should
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[FTC Blocks Online Tutorial](https://ftc-docs.firstinspires.org/programming_resources/blocks/Blocks-Tutorial.html)
 
 Even if you are an advanced Java programmer, it is helpful to start with the [FTC Blocks tutorial](https://ftc-docs.firstinspires.org/programming_resources/blocks/Blocks-Tutorial.html), and then migrate to the [OnBot Java Tool](https://ftc-docs.firstinspires.org/programming_resources/onbot_java/OnBot-Java-Tutorial.html) or to [Android Studio](https://ftc-docs.firstinspires.org/programming_resources/android_studio_java/Android-Studio-Tutorial.html) afterwards.
+=======
+1. Download or clone this repo with `git clone --single-branch -b quickstart1 https://github.com/acmerobotics/road-runner-quickstart.git`.
 
-## Downloading the Project
-If you are an Android Studio programmer, there are several ways to download this repo.  Note that if you use the Blocks or OnBot Java Tool to program your robot, then you do not need to download this repository.
+1. Open the project in Android Studio and build `TeamCode` like any other `ftc_app` project.
+
+1. If you have trouble with multidex, enable proguard by changing `useProguard` to `true` in `build.common.gradle`.
+
+## Documentation
 
 * If you are a git user, you can clone the most current version of the repository:
 
@@ -1440,3 +1446,5 @@ Changes include:
  * The API for the Legacy Module and Core Device Interface Module have been updated.
    - Support for encoders with the Legacy Module is now working.
  * The hardware loop has been updated for better performance.
+=======
+Check out the [online quickstart documentation](https://rr.brott.dev/docs/v0-5/quickstart/introduction/).
