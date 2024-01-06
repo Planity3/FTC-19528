@@ -49,7 +49,7 @@ public class MecanumDrive implements Mechanism{
         frontRightMotor = HwMap.get(DcMotor.class, "frontRight");
         frontLeftMotor = HwMap.get(DcMotor.class, "frontLeft");
 
-        frontLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         List<DcMotor> motors = Arrays.asList(backLeftMotor, backRightMotor, frontRightMotor, frontLeftMotor);
@@ -70,11 +70,28 @@ public class MecanumDrive implements Mechanism{
     }
 
     public void move(double forward, double right, double rotate) {
-        double frontLeftPower = forward + right + rotate;
-        double frontRightPower = forward - right - rotate;
-        double backRightPower = forward + right - rotate;
-        double backLeftPower = forward - right + rotate;
 
+        double frontLeftPower = forward * Math.cos(right) + rotate;
+        double frontRightPower = forward * Math.sin(right) - rotate;
+        double backLeftPower = forward * Math.sin(right) + rotate;
+        double backRightPower = forward * Math.cos(right) - rotate;
+
+        if(rotate > 0)
+        {
+            frontLeftPower = Math.abs(frontLeftPower);
+            backLeftPower = -Math.abs(backLeftPower);
+
+            frontRightPower = Math.abs(frontRightPower);
+            backRightPower = -Math.abs(backRightPower);
+        }
+        else if(rotate < 0)
+        {
+            frontLeftPower = -Math.abs(frontLeftPower);
+            backLeftPower = Math.abs(backLeftPower);
+
+            frontRightPower = -Math.abs(frontRightPower);
+            backRightPower = Math.abs(backRightPower);
+        }
         setPowers(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
     }
 

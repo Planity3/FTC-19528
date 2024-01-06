@@ -1,9 +1,16 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+@Config
 public class Lift implements Mechanism{
     public LiftPositions getManipulatorPosition() {
         return manipulatorPosition;
@@ -45,7 +52,7 @@ public class Lift implements Mechanism{
     private double desiredPosition;
     private double sumOfErrors;
     private double lastError;
-    static double K_P = 0.007;
+    static double K_P = 0.05;
     static double K_I = 0.0001;
     static double K_D = 0.2;
     public double motorPower;
@@ -54,23 +61,23 @@ public class Lift implements Mechanism{
 
     @Override
     public void init(HardwareMap hwMap) {
-        rightLiftMotor = hwMap.get(DcMotorEx.class, "rightSlide");
-        rightLiftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLiftMotor = hwMap.get(DcMotorEx.class, "slideRight");
+        rightLiftMotor.setDirection(DcMotorEx.Direction.REVERSE);
+        rightLiftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        rightLiftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        rightLiftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-        leftLiftMotor = hwMap.get(DcMotorEx.class, "leftSlide");
-        leftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftLiftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLiftMotor = hwMap.get(DcMotorEx.class, "slideLeft");
+        leftLiftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        leftLiftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        leftLiftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         setManipulatorPosition(LiftPositions.FLOOR_POSITION);
         desiredPosition = leftLiftMotor.getCurrentPosition();
 
 
 
     }
-    private void setDesiredPosition(double newPosition){
+    public void setDesiredPosition(double newPosition){
         desiredPosition = newPosition;
         sumOfErrors = 0;
         lastError = 0;
@@ -80,18 +87,22 @@ public class Lift implements Mechanism{
         return currentPosition()> ARE_SLIDES_EXTENDED_BOUNDARY;
 
     }
-    public void update(){
+    public void update(Telemetry telemetry){
 
         double error;
         error = getDesiredPosition() - currentPosition();
         sumOfErrors = sumOfErrors + error;
 
-        //motorPower =K_P * error + K_I * sumOfErrors + K_D * (error - lastError);
+//        motorPower = K_P * error + K_I * sumOfErrors + K_D * (error - lastError);
         motorPower = K_P *error;
         lastError = error;
 
         rightLiftMotor.setPower(motorPower);
         leftLiftMotor.setPower(motorPower);
+        telemetry.addData("Desired power Lift", "" + String.format("%.2f", motorPower));
+
+        telemetry.addData("Desired Position Lift", "" + String.format("%.2f", desiredPosition));
+        telemetry.update();
     }
 
 

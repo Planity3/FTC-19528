@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Arm implements Mechanism{
     private double desiredPosition;
+    private double backdropPosition;
     private double sumOfErrors;
     private double lastError;
     static double K_P = 0.5;
@@ -19,6 +20,9 @@ public class Arm implements Mechanism{
     public void init(HardwareMap hwMap)
     {
         clawPitch = hwMap.dcMotor.get("clawPitch");
+        clawPitch.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        clawPitch.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        clawPitch.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         desiredPosition = clawPitch.getCurrentPosition();
         startPos = desiredPosition;
     }
@@ -35,6 +39,14 @@ public class Arm implements Mechanism{
         clawPitch.setPower(motorPower);
     }
 
+    public void goToBackdropPosition()
+    {
+        desiredPosition = backdropPosition;
+    }
+    public void goToGroundPosition()
+    {
+        desiredPosition = startPos;
+    }
     public double getDesiredPosition(){
         return desiredPosition;
     }

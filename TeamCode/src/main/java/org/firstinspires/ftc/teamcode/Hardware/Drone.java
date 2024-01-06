@@ -11,8 +11,8 @@ public class Drone implements Mechanism{
     @Override
     public void init(HardwareMap hwMap)
     {
-        raiseServo = hwMap.get(Servo.class, "liftServo");
-        launchServo = hwMap.get(Servo.class, "launchServo");
+//        raiseServo = hwMap.get(Servo.class, "liftServo");
+//        launchServo = hwMap.get(Servo.class, "launchServo");
 
     }
     public void RaiseLauncher()

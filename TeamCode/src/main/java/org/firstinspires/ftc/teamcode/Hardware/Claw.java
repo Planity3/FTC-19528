@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 public class Claw implements Mechanism{
-    boolean clawOpen;
+    public boolean clawOpen;
     private Servo clawLeft;
     private Servo clawRight;
 
