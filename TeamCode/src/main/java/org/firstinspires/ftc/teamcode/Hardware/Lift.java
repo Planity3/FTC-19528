@@ -43,8 +43,8 @@ public class Lift implements Mechanism{
     private static final int FLOOR_POSITION =0  ;
     private static final int PIXEL_HEIGHT = 271;
     private final int MANUAL_CHANGE = 50;
-    private DcMotorEx rightLiftMotor;
-    private DcMotorEx leftLiftMotor;
+    private DcMotor rightLiftMotor;
+    private DcMotor leftLiftMotor;
 
 
 
@@ -52,25 +52,26 @@ public class Lift implements Mechanism{
     private double desiredPosition;
     private double sumOfErrors;
     private double lastError;
-    static double K_P = 0.05;
+    static double K_P = 0.007;
     static double K_I = 0.0001;
-    static double K_D = 0.2;
+    static double K_D = 0.02;
     public double motorPower;
 
 
 
     @Override
     public void init(HardwareMap hwMap) {
-        rightLiftMotor = hwMap.get(DcMotorEx.class, "slideRight");
-        rightLiftMotor.setDirection(DcMotorEx.Direction.REVERSE);
-        rightLiftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        rightLiftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        rightLiftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        rightLiftMotor = hwMap.get(DcMotor.class, "slideRight");
+        rightLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightLiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftLiftMotor = hwMap.get(DcMotorEx.class, "slideLeft");
-        leftLiftMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        leftLiftMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        leftLiftMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        leftLiftMotor = hwMap.get(DcMotor.class, "slideLeft");
+        leftLiftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftLiftMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        leftLiftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftLiftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         setManipulatorPosition(LiftPositions.FLOOR_POSITION);
         desiredPosition = leftLiftMotor.getCurrentPosition();
 
@@ -87,24 +88,45 @@ public class Lift implements Mechanism{
         return currentPosition()> ARE_SLIDES_EXTENDED_BOUNDARY;
 
     }
-    public void update(Telemetry telemetry){
+    public void update(Telemetry telemetry, double slidePower){
+//
+//        double error;
+//        error = getDesiredPosition() - currentPosition();
+//        sumOfErrors = sumOfErrors + error;
+//
+////        motorPower = K_P * error + K_I * sumOfErrors + K_D * (error - lastError);
+//        motorPower = K_P *error;
+//        lastError = error;
 
-        double error;
-        error = getDesiredPosition() - currentPosition();
-        sumOfErrors = sumOfErrors + error;
-
-//        motorPower = K_P * error + K_I * sumOfErrors + K_D * (error - lastError);
-        motorPower = K_P *error;
-        lastError = error;
-
-        rightLiftMotor.setPower(motorPower);
-        leftLiftMotor.setPower(motorPower);
-        telemetry.addData("Desired power Lift", "" + String.format("%.2f", motorPower));
-
-        telemetry.addData("Desired Position Lift", "" + String.format("%.2f", desiredPosition));
+        leftLiftMotor.setPower(slidePower);
+         rightLiftMotor.setPower(-slidePower);
+//        telemetry.addData("Desired power Lift", "" + String.format("%.2f", motorPower));
+//        telemetry.addData("Current position Lift", "" + String.format("%.2f", currentPosition()));
+//        telemetry.addData("Current position left Lift", "" + String.format("%d", leftLiftMotor.getCurrentPosition()));
+//        telemetry.addData("Current position right Lift", "" + String.format("%d", rightLiftMotor.getCurrentPosition()));
+//
+//        telemetry.addData("Desired Position Lift", "" + String.format("%.2f", desiredPosition));
         telemetry.update();
     }
+    public void update(Telemetry telemetry ){
+//
+//        double error;
+//        error = getDesiredPosition() - currentPosition();
+//        sumOfErrors = sumOfErrors + error;
+//
+////        motorPower = K_P * error + K_I * sumOfErrors + K_D * (error - lastError);
+//        motorPower = K_P *error;
+//        lastError = error;
 
+
+//        telemetry.addData("Desired power Lift", "" + String.format("%.2f", motorPower));
+//        telemetry.addData("Current position Lift", "" + String.format("%.2f", currentPosition()));
+//        telemetry.addData("Current position left Lift", "" + String.format("%d", leftLiftMotor.getCurrentPosition()));
+//        telemetry.addData("Current position right Lift", "" + String.format("%d", rightLiftMotor.getCurrentPosition()));
+//
+//        telemetry.addData("Desired Position Lift", "" + String.format("%.2f", desiredPosition));
+        telemetry.update();
+    }
 
 
     public void manualLiftUp(){
