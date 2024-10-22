@@ -34,7 +34,8 @@ public class MecanumTeleOp extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         clawRight.setDirection(Servo.Direction.REVERSE);
-        
+
+        //makes the motor stop fast as opposed to slowly fading off "jerk stop"
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -43,22 +44,22 @@ public class MecanumTeleOp extends LinearOpMode {
         slideLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         slideRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-
+// variables used to store the state of the claw for use in the code later
         boolean planeToggle = false;
         boolean clawPosition = false;
         boolean clawHold = false;
         int clawPos = 0;
         int slidePos = 0;
         //false = closed
-
+//reset the  law position
         waitForStart();
         clawLeft.setPosition(0.35);
         clawRight.setPosition(0.2); 
         if (isStopRequested()) return;
-
+// main program running loop
         while (opModeIsActive()) {
             
-            
+            // this is the code that makes the controler drive the robot
             double r = Math.hypot(-gamepad1.left_stick_y, gamepad1.left_stick_x);
             double robotAngle = Math.atan2(gamepad1.left_stick_x, -gamepad1.left_stick_y) - Math.PI / 4;
             double rightX = gamepad1.right_stick_x;
@@ -69,7 +70,7 @@ public class MecanumTeleOp extends LinearOpMode {
             double v4 = r * Math.cos(robotAngle) - rightX;
             
             int powerMultiplier = 1;
-            
+            //hard code for each type of turn because the code above doesn't work properly
             if(rightX > 0)
             {
                 v1 = Math.abs(v1);
@@ -86,7 +87,7 @@ public class MecanumTeleOp extends LinearOpMode {
                 v2 = -Math.abs(v2);
                 v4 = Math.abs(v4);
             }
-            
+            //setting power to the motors for speed level
             frontLeftMotor.setPower(v1 * powerMultiplier);
             frontRightMotor.setPower(v2 * powerMultiplier);
             backLeftMotor.setPower(v3 * powerMultiplier);
@@ -102,7 +103,7 @@ public class MecanumTeleOp extends LinearOpMode {
             //     planeServo.setPosition(0);
             // }
             
-            //drive controls
+            //drive controls for claw
             if(gamepad2.left_bumper)
             {
                 while(gamepad2.left_bumper)
@@ -144,7 +145,7 @@ public class MecanumTeleOp extends LinearOpMode {
             }
             slideLeft.setTargetPosition(slidePos);
             slideRight.setTargerPosition(slidePos);
-            
+            //outputs the motors to the screen so we can debug what is going on
             telemetry.addData("Front_Left tgt pwr", "pwr: " + String.format("%.2f", v1));
             telemetry.addData("Front_Right tgt pwr", "pwr: " + String.format("%.2f", v2));
             telemetry.addData("Back_Left tgt pwr", "pwr: " + String.format("%.2f", v3));
