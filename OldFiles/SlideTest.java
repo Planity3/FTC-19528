@@ -23,6 +23,7 @@ import com.qualcomm.robotcore.hardware.Blinker;
 import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -43,15 +44,18 @@ public class SlideTest extends LinearOpMode {
     private Blinker control_Hub;
     private DcMotor hLift;
     private Gyroscope imu;
-    //private DcMotor vLift;
-    
+    private DcMotor vLift;
+    private Servo wrist;
+    private Servo intake;
     @Override
     public void runOpMode() {
         control_Hub = hardwareMap.get(Blinker.class, "Control Hub");
         hLift = hardwareMap.get(DcMotor.class, "hLift");
-        //vLift = hardwareMap.get(DcMotor.class, "vLift");
+        vLift = hardwareMap.get(DcMotor.class, "vLift");
         imu = hardwareMap.get(Gyroscope.class, "imu");
-
+        wrist = hardwareMap.get(Servo.class, "wrist");
+        intake = hardwareMap.get(Servo.class, "intake");
+        
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
@@ -63,7 +67,7 @@ public class SlideTest extends LinearOpMode {
             telemetry.update();
             
             hLift.setPower(gamepad1.left_stick_x);
-            //vLift.setPower(gamepad1.right_stick_y);
+            vLift.setPower(gamepad1.right_stick_y);
 
         }
     }
