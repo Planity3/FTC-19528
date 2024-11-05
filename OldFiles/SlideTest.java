@@ -24,6 +24,7 @@ import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -46,7 +47,9 @@ public class SlideTest extends LinearOpMode {
     private Gyroscope imu;
     private DcMotor vLift;
     private Servo wrist;
-    private Servo intake;
+    private CRServo intake;
+    private boolean intakeButton = false;
+
     @Override
     public void runOpMode() {
         control_Hub = hardwareMap.get(Blinker.class, "Control Hub");
@@ -54,8 +57,9 @@ public class SlideTest extends LinearOpMode {
         vLift = hardwareMap.get(DcMotor.class, "vLift");
         imu = hardwareMap.get(Gyroscope.class, "imu");
         wrist = hardwareMap.get(Servo.class, "wrist");
-        intake = hardwareMap.get(Servo.class, "intake");
-        
+        intake = hardwareMap.get(CRServo.class, "intake");
+        intake.setDirection(DcMotorSimple.Direction.REVERSE);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
@@ -68,7 +72,27 @@ public class SlideTest extends LinearOpMode {
             
             hLift.setPower(gamepad1.left_stick_x);
             vLift.setPower(gamepad1.right_stick_y);
+            
+            //different section
+            if(gamepad2.left_bumper)
+            {
+                while(gamepad2.left_bumper)
+                {
+                    
+                }
+                intakeButton = !intakeButton;
+             
+                 
+            }
 
+            //this section turns on & off the intake Servo 
+            if(intakeButton == true) {
+                
+                intake.setPower(1);
+             
+        }
+            else{
+             intake.setPower(0);
         }
     }
 }
