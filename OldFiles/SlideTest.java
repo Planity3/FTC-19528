@@ -96,6 +96,7 @@ public class SlideTest extends LinearOpMode {
         }
     }
 }
+}
 // what we still need to add, code for the outake wrist on the top of the vertical slide
 //more code for the linear slides deploying 
 //program a button push automation for outake procedure
