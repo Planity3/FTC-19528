@@ -156,3 +156,11 @@ public class MecanumTeleOp extends LinearOpMode {
         }
     }
 }
+
+public class PIDController {
+    public PIDController() { 
+        static double K_P = 0.4;
+        static double K_I = 0.0005;
+        static double K_D = 0.005;
+    }
+}
