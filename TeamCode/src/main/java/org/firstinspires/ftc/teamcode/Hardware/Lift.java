@@ -110,13 +110,13 @@ public class Lift implements Mechanism{
     }
     public void update(Telemetry telemetry ){
 //
-//        double error;
-//        error = getDesiredPosition() - currentPosition();
-//        sumOfErrors = sumOfErrors + error;
-//
-////        motorPower = K_P * error + K_I * sumOfErrors + K_D * (error - lastError);
-//        motorPower = K_P *error;
-//        lastError = error;
+       double error;
+       error = getDesiredPosition() - currentPosition();
+       sumOfErrors = sumOfErrors + error;
+
+       motorPower = K_P * error + K_I * sumOfErrors + K_D * (error - lastError);
+       motorPower = K_P *error;
+       lastError = error;
 
 
 //        telemetry.addData("Desired power Lift", "" + String.format("%.2f", motorPower));
