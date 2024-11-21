@@ -12,12 +12,10 @@ public class MecanumTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // Declare our motors
         // Make sure your ID's match your configuration
-
         PIDController vSlidePID = new PIDController();
 
         //DcMotor horizontalSlide = hardwareMap.dcMotor.get("hSlide");
         DcMotor verticalSlide = hardwareMap.dcMotor.get("vSlide");
-
 
         //horizontalSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         verticalSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -27,8 +25,7 @@ public class MecanumTeleOp extends LinearOpMode {
 
         waitForStart();
         if (isStopRequested()) return;
-// main program running loop
-        while (opModeIsActive()) {
+            while (opModeIsActive()) {
             
             /*
             //horizontal slide
