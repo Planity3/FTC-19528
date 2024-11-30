@@ -1,0 +1,13 @@
+TrajectorySequence trajectory0 = drive.trajectorySequenceBuilder(new Pose2d(11.07, 71.21, Math.toRadians(90.00)))
+.splineTo(new Vector2d(12.17, 37.14), Math.toRadians(-88.15))
+.splineTo(new Vector2d(31.01, 42.79), Math.toRadians(16.70))
+.splineTo(new Vector2d(56.92, 54.41), Math.toRadians(24.16))
+.splineTo(new Vector2d(62.42, 61.01), Math.toRadians(50.19))
+.splineTo(new Vector2d(48.92, 34.00), Math.toRadians(243.43))
+.splineTo(new Vector2d(64.15, 59.28), Math.toRadians(58.93))
+.splineTo(new Vector2d(65.88, 59.75), Math.toRadians(257.44))
+.splineTo(new Vector2d(59.75, 32.27), Math.toRadians(260.75))
+.splineTo(new Vector2d(68.23, 58.97), Math.toRadians(72.38))
+.splineTo(new Vector2d(61.95, 62.58), Math.toRadians(269.17))
+.splineTo(new Vector2d(69.17, 31.01), Math.toRadians(-88.07))
+.build();
