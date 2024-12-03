@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -20,7 +21,9 @@ public class MecanumTeleOp extends LinearOpMode {
         DcMotor backRightMotor = hardwareMap.dcMotor.get("backRight");
 
         CRServo intake = hardwareMap.get(CRServo.class, "intakeServo");
-        Servo outtake = hardwareMap.get(Servo.class, "outtakeServo");
+
+        Servo hWrist = hardwareMap.get(Servo.class, "hWrist");
+        Servo vWrist = hardwareMap.get(Servo.class, "vWrist");
 
         DcMotor horizontalSlide = hardwareMap.dcMotor.get("hSlide");
         DcMotor verticalSlide = hardwareMap.dcMotor.get("vSlide");
@@ -32,6 +35,8 @@ public class MecanumTeleOp extends LinearOpMode {
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        //hWrist.setDirection(Servo.Direction.REVERSE);
+
         //makes the motor stop fast as opposed to slowly fading off "jerk stop"
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -41,9 +46,12 @@ public class MecanumTeleOp extends LinearOpMode {
         verticalSlide.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         double servoPower = 0;
+        double powerMultiplier = 1;
+        double intakePower = 0;
         boolean intakeStatus = false;
 
         vSlidePID.setMotor(verticalSlide);
+        vWrist.setPosition(0);
 
         waitForStart();
         if (isStopRequested()) return;
@@ -86,23 +94,34 @@ public class MecanumTeleOp extends LinearOpMode {
 
             
             //intake
+
             if(gamepad2.left_bumper)
             {
-                while(gamepad2.left_bumper)
-                {
-                    
-                }
-                intakeStatus = !intakeStatus;
-                if(intakeStatus)
-                {
-                    intakePower = 1;
-                 }
-                 else
-                 {
-                   intakePower = 0;
-                 }
+                intakePower = 1;
             }
-
+            //outttake
+            else if(gamepad2.right_bumper) {
+                intakePower = -1;
+            }
+            else {
+                intakePower = 0;
+            }
+            intake.setPower(intakePower);
+            //
+            if(gamepad2.y) {
+                hWrist.setPosition(0);
+            }
+            if(gamepad2.x) {
+                hWrist.setPosition(0.56);
+            }
+            //
+            if(gamepad2.a) {
+                vWrist.setPosition(0);
+            }
+            if(gamepad2.b) {
+                vWrist.setPosition(0.65);
+            }
+            
             //horizontal slide
             double hslidePower = gamepad2.left_stick_x;
             horizontalSlide.setPower(hslidePower);
@@ -124,49 +143,4 @@ public class MecanumTeleOp extends LinearOpMode {
             telemetry.update();
         }
     }
-}
-
-public class PIDController {
-    public PIDController() { 
-        static double K_P = 0.4;
-        static double K_I = 0.0005;
-        static double K_D = 0.005;
-
-        public double desiredPosition;
-        public double sumOfErrors;
-        public double lastError;
-        public double motorPower;
-        public DcMotor motor;
-    }
-    public double Update() {
-        double error;
-        error = getDesiredPosition() - currentPosition();
-        sumOfErrors = sumOfErrors + error;
-
-        motorPower = K_P * error + K_I * sumOfErrors + K_D * (error - lastError);
-        motorPower = K_P *error;
-        motor.setPower(motorPower);
-        lastError = error;
-    }
-
-    public void setDesiredPosition() {
-        desiredPosition = newPosition;
-        sumOfErrors = 0;
-        lastError = 0;
-    }
-
-    public double getDesiredPosition() {
-        return desiredPosition;
-    }
-
-    public void currentPosition() {
-        return motor.getCurrentPosition;
-    }
-
-    public void setMotor(DcMotor _motor)
-    {
-        motor = _motor;
-    }
-
-
 }

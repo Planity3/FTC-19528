@@ -36,11 +36,23 @@ public class MecanumTeleOp extends LinearOpMode {
             double vslidePower = gamepad2.right_stick_y;
             verticalSlide.setPower(vslidePower);
             */
-            
+            int add = 0;
+            if(gamepad1.dpad_down) {
+                add -= 5;
+            }
+            else if (gamepad1.dpad_up) {
+                add += 5;
+            }
+            else if (gamepad2.dpad_down) {
+                add -= 50;
+            }
+            else if (gamepad2.dpad_up) {
+                add += 50;
+            }
 
             //outputs the motors to the screen so we can debug what is going on
 
-            telemetry.addData("Vertical Slide tgt pwr", "pwr: " + String.format("%.2f", vslidePower));
+            //telemetry.addData("Vertical Slide tgt pwr", "pwr: " + String.format("%.2f", vslidePower));
             //telemetry.addData("Horizontal Slide tgt pwr", "pwr: " + String.format("%.2f", hslidePower));
             telemetry.addData("Vertical slide current position", "pos: " + String.format("%.2f", verticalSlide.getCurrentPosition()));
             telemetry.addData("Vertical slide target position", "pos: " + String.format("%.2f", vSlidePID.getDesiredPosition()));
